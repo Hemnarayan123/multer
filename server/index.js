@@ -47,6 +47,23 @@ app.get('/getProducts', (req, res) => {
     })
 });
 
+app.put('/update/:id', upload.single('file'), (req, res) => {
+    const { name, price } = req.body;
+    const updateData = { name, price };
+    if (req.file) {
+      updateData.image = req.file.filename;
+    }
+    User.findByIdAndUpdate(req.params.id, updateData, { new: true })
+      .then(result => res.json({ result }))
+      .catch(err => console.log(err));
+  });
+  
+  app.delete('/delete/:id', (req, res) => {
+    User.findByIdAndDelete(req.params.id)
+      .then(result => res.json({ result }))
+      .catch(err => console.log(err));
+  });
+
 
 MongoDB().then(() => {
     app.listen(4001, () => {
