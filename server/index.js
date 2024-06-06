@@ -30,12 +30,13 @@ const upload = multer({
 });
 
 app.post('/upload',upload.single('file'), (req, res) => {
-   User.create({image: req.file.filename})
+    const {name, price} = req.body;
+   User.create({name, price, image: req.file.filename})
    .then((result) => {res.json({result})})
     .catch((err) => {console.log(err) })
 });
 
-app.get('/getImage', (req, res) => {
+app.get('/getProducts', (req, res) => {
     User.find()
    .then((result) => {
     res.json({result})
